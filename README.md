@@ -74,7 +74,7 @@ every instance.
 
 ## Install
 
-1. GitHub -> **Actions** -> the latest green run -> **Artifacts** -> `TB-Carls-Echo-mac-vst`.
+1. GitHub -> **Actions** -> the latest green run -> **Artifacts** -> `TB-Carls-Echo-mountain-lion-vst`.
 2. Unzip it (twice: GitHub zips the zip) to get `TB Carls Echo.vst`.
 3. Copy `TB Carls Echo.vst` to `/Library/Audio/Plug-Ins/VST/`.
 4. Rescan in Blue Cat PatchWork and load **TB Carls Echo**.
