@@ -11,6 +11,9 @@ namespace tbce
 
 enum { kEditorWidth = 480, kEditorHeight = 748 };
 
+// Build version, shown small in the strip so the user can see which build is loaded
+#define TB_CE_VERSION_TEXT "v1.0.2"
+
 // What the editor needs from the plugin.
 class EditorHost
 {

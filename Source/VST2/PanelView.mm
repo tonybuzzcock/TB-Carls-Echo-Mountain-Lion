@@ -312,6 +312,7 @@ void drawStackedText (const char* s, CGFloat size, CGFloat cx, CGFloat cy)
 
     // The TB electronic logo in the strip's corner, straight on the silver
     tblogo::drawTBLogo (NSMakeRect (16.0, 538.0, 130.0, 72.0));
+    drawTextLeft (TB_CE_VERSION_TEXT, plainFont (9.0), rgb (70, 72, 75), 20.0, 620.0);
 }
 
 - (void) drawScaleForCtl: (const Ctl&) c

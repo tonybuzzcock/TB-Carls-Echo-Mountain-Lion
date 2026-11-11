@@ -30,7 +30,7 @@ namespace
 {
 
 const VstInt32 kUniqueID    = VST_FOURCC ('T', 'B', 'c', 'e');
-const VstInt32 kVersion     = 1000;       // 1.0.0
+const VstInt32 kVersion     = 1002;       // 1.0.2 (shown on the panel: keep TB_CE_VERSION_TEXT in Editor.h in step)
 const VstInt32 kNumChannels = 2;
 const char* const kPluginName = "TB Carls Echo";
 
