@@ -20,9 +20,14 @@ namespace
     // Compressor IC2.B: R6 6K8 swell input, C8 220p across the G cell, C6 680n
     const double kR6 = 6.8e3, kC8 = 220.0e-12, kC6 = 680.0e-9;
     // IC1.D Sallen-Key: R9 12K, R10 15K, C45 4n7 to ground, C11 4n7 to the output;
-    // gain network R13 22K, R12 27K (C12 4u7 treated as a short), R11 18K + C10 10n
+    // gain network R13, R12 27K (C12 4u7 treated as a short), R11 18K + C10 10n.
+    // R13 is drawn as 22K, which gives the stage a gain of 3 in the treble and
+    // a Q of about 4 (+19 dB at 3 kHz): the compander doubles that, and the
+    // repeats run away on any bright pick attack. Taken as 2K2 (a likely
+    // misreading), the stage is a gentle low-pass (Q 0.56) and the echo loop
+    // only runs away with SWELL near full, as on the pedal.
     const double kR9 = 12.0e3, kR10 = 15.0e3, kC45 = 4.7e-9, kC11 = 4.7e-9;
-    const double kR13 = 22.0e3, kR12 = 27.0e3, kR11 = 18.0e3, kC10 = 10.0e-9;
+    const double kR13 = 2.2e3, kR12 = 27.0e3, kR11 = 18.0e3, kC10 = 10.0e-9;
     // VR1.B 47K log, R20 2K2 + C19 4n7; C20 4u7 into R21 100K
     const double kVR1 = 47.0e3, kR20 = 2.2e3, kC19 = 4.7e-9, kC20 = 4.7e-6, kR21 = 100.0e3;
     // IC5.D: R29 / R30 22K into the ends of VR5 5K (wiper centred), R34 18K
@@ -52,7 +57,7 @@ namespace
     // (Echo::kStages), so 16 ms to 183 ms over the measured clock range.
     // Gain through the chip and its outputs, and its clipping level at the
     // input (BBD BIAS trim centred).
-    const double kCcdGain = 0.40;
+    const double kCcdGain = 0.67;               // echo at the dry level in the bass
     const double kCcdClip = 2.0;
     // -------------------------------------------------------------------------
 

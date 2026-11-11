@@ -304,6 +304,38 @@ int main (int argc, char** argv)
         check (tailLow < 1e-3, "low SWELL rings down");
     }
 
+    std::printf ("\n5b. A bright pick attack at the default settings\n");
+    {
+        bool decays = true;
+        const double amps[3] = { 0.05, 0.15, 0.5 };
+        for (int k = 0; k < 3; ++k)
+        {
+            defaults (a);
+            a.reset();
+            std::vector<float> x ((size_t) (6 * kSr), 0.0f);
+            pluck (x, kSr / 10, 196.0, amps[k], 1.5);
+            std::vector<float> y = run (a, x);
+            const double late = peakRange (y, 4 * kSr, y.size());
+            std::printf ("  %.2f V pluck: peak %.3f, after 4 s %.2g\n", amps[k], peakRange (y, 0, y.size()), late);
+            if (late > 1e-3) decays = false;
+        }
+        check (decays, "plucked notes die away (no runaway at SWELL 3)");
+
+        int worst = 10;
+        for (int d = 0; d <= 4; ++d)
+            for (int sw = 1; sw <= 10; ++sw)
+            {
+                a.setDelay (d / 4.0); a.setSwell (sw / 10.0); a.setMix (1.0); a.setEffectOn (true);
+                a.reset();
+                std::vector<float> x ((size_t) (4 * kSr), 0.0f);
+                pluck (x, kSr / 10, 196.0, 0.3, 1.0);
+                std::vector<float> y = run (a, x);
+                if (peakRange (y, 3 * kSr, y.size()) > 0.05) { worst = std::min (worst, sw); break; }
+            }
+        std::printf ("  lowest SWELL that runs away, at any DELAY: %d\n", worst);
+        check (worst >= 9, "SWELL only runs away near full");
+    }
+
     std::printf ("\n6. Footswitch\n");
     {
         defaults (a);

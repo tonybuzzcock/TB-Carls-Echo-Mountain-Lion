@@ -9,8 +9,8 @@
 //         feedback, rectifier on the output, C6 680n; C8 220p across it)
 //         SWELL feedback also sums in here through R6 6K8
 //   -> R9 12K / R10 15K / C45 4n7 / C11 4n7: Sallen-Key low-pass round IC1.D,
-//      whose gain is 1 + R13 22K / (R12 27K || (R11 18K + C10 10n)):
-//      x1.8 in the bass, x3 in the treble (pre-emphasis)
+//      whose gain is 1 + R13 / (R12 27K || (R11 18K + C10 10n)); R13 is
+//      drawn as 22K but taken as 2K2 (see Echo.cpp): x1.08 bass, x1.2 treble
 //   -> two 3rd-order low-pass sections, R14 15K C13 4n7 R15 12K C14 22n
 //      R16 15K C15 470p (IC1.A), R17 15K C16 4n7 R18 12K C18 22n R19 15K
 //      C17 470p (IC1.B)

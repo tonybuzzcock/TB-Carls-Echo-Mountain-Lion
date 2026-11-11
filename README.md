@@ -16,8 +16,7 @@ with Sallen-Key filters either side:
   OUTPUT jack, the bottom of MIX and the bypass.
 - **Compressor** IC2.B (NE571): input through R5 10K, the repeats through R6 6K8.
 - **IC1.D**: a Sallen-Key low-pass (R9 12K, R10 15K, C45 / C11 4n7) with a gain network
-  (R13 22K over R12 27K and R11 18K + C10 10n) that gives x1.8 in the bass and x3 in the
-  treble, so it peaks at about 2-3 kHz. Then two 3rd-order low-pass sections (IC1.A, IC1.B).
+  (R13 over R12 27K and R11 18K + C10 10n), then two 3rd-order low-pass sections (IC1.A, IC1.B).
 - **VR1.B** (the DELAY pot's second gang) with R20 2K2 + C19 4n7: a tone filter that darkens
   as the delay gets longer.
 - **IC3 R5101** CCD, clocked by IC4 (CD4007) through R33 3K9 + VR1.A; the drawing gives the
@@ -39,10 +38,11 @@ are there. 4x oversampled.
 - **VR1.B direction**: the drawing's rotation arrows would make the tone filter darkest at
   the *shortest* delay. The model has it the other way round (darkest at the longest delay,
   where the CCD's bandwidth is lowest), which is what the filter is for.
-- **Treble peak**: as drawn, IC1.D peaks at about 2-3 kHz and nothing after the expander takes
-  it out again. The compander doubles it, so the repeats come back strongly bright around
-  2 kHz (about +20 dB on a single tone at short delays, +7 dB at the longest). That also sets
-  where SWELL runs away: from about 5 at short delays, 7 at mid delays and 9-10 at the longest.
+- **R13 (IC1.D's gain network)**: drawn as 22K, which gives IC1.D a gain of 3 in the treble
+  and a resonance of +19 dB at 3 kHz. The compander doubles that, and in the first build any
+  bright pick attack ran the repeats away at the default settings. The model takes R13 as
+  **2K2** (a likely misreading): the stage is then a gentle low-pass, and SWELL only runs away
+  at full. If you can see R13 in your pedal, its real value settles it.
 
 ### Estimates (not fixed by the drawing)
 
@@ -52,7 +52,7 @@ Named constants in `Source/DSP/Echo.cpp`:
 |---|---|
 | R5101 delay | 2000 clock periods: 16 ms (DELAY min) to 183 ms (DELAY max), 33 ms at noon |
 | Clock law | f = A / (VR1.A + R0), fitted to the measured 10.9 / 125 kHz ends (R0 = 4K5) |
-| CCD gain and clipping | x0.40, soft clip at 2 V peak (BBD BIAS centred) |
+| CCD gain and clipping | x0.67 (the echo comes back at the dry level in the bass), soft clip at 2 V peak (BBD BIAS centred) |
 | NE571 unity-gain level | 0.70 V average (0 dBu); compressor gain limited to 40 dB |
 | Supply | VCC 11.2 V (Z1 11V8), op-amp swing +/- 4.1 V about VBIAS |
 | Delay pot taper | audio (log), 10% at mid-rotation |
@@ -82,7 +82,7 @@ every instance.
 ## Building and testing
 
 - `make -C Tests run vst-run` - DSP tests (delay times, echo response, MIX, compander, SWELL,
-  bypass, limits and stability, automation, CPU, demo WAVs in `Tests/renders`), presets, and the
+  plucked notes at the defaults die away, bypass, limits and stability, automation, CPU, demo WAVs in `Tests/renders`), presets, and the
   plugin in a mini VST host. `make -C Tests asan` runs them under the sanitizers.
 - `scripts/build_vst_mac.sh` (on a Mac) builds the bundle for 10.8 and fails unless the
   binary declares 10.8 as its minimum and links only libraries that exist on 10.8.
