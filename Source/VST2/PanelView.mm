@@ -107,15 +107,6 @@ void drawText (const char* s, NSFont* font, NSColor* color, CGFloat cx, CGFloat 
     [str drawAtPoint: NSMakePoint (cx - sz.width * 0.5, cy - sz.height * 0.5) withAttributes: attrs];
 }
 
-void drawTextLeft (const char* s, NSFont* font, NSColor* color, CGFloat x, CGFloat cy)
-{
-    NSString* str = [NSString stringWithUTF8String: s];
-    NSDictionary* attrs = [NSDictionary dictionaryWithObjectsAndKeys:
-                             font, NSFontAttributeName, color, NSForegroundColorAttributeName, nil];
-    const NSSize sz = [str sizeWithAttributes: attrs];
-    [str drawAtPoint: NSMakePoint (x, cy - sz.height * 0.5) withAttributes: attrs];
-}
-
 // The pedal's light green, lighter at the top
 NSGradient* greenGradient()
 {
@@ -343,7 +334,6 @@ static CGFloat fitFontSize (const char* s, CGFloat size, CGFloat maxW)
 
     // The TB electronic logo in the strip's corner, straight on the silver
     tblogo::drawTBLogo (NSMakeRect (16.0, 538.0, 130.0, 72.0));
-    drawTextLeft (TB_CE_VERSION_TEXT, plainFont (9.0), rgb (70, 72, 75), 20.0, 620.0);
 }
 
 - (void) drawScaleForCtl: (const Ctl&) c
